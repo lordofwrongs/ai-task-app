@@ -1,1 +1,37 @@
-const express = require('express'); const mongoose = require('mongoose'); const bodyParser = require('body-parser'); const jwt = require('jsonwebtoken'); const nodemailer = require('nodemailer'); const app = express(); app.use(bodyParser.json()); mongoose.connect('mongodb://localhost:27017/taskmanager', { useNewUrlParser: true, useUnifiedTopology: true }); app.post('/api/auth/register', (req, res) => { /* registration logic */ }); app.post('/api/auth/login', (req, res) => { /* login logic */ }); app.post('/api/tasks', (req, res) => { /* create task logic */ }); app.put('/api/tasks/:id', (req, res) => { /* edit task logic */ }); app.delete('/api/tasks/:id', (req, res) => { /* delete task logic */ }); app.post('/api/tasks/:id/category', (req, res) => { /* assign category logic */ }); app.post('/api/tasks/:id/due_date', (req, res) => { /* set due date logic */ }); app.put('/api/users/notifications', (req, res) => { /* update notification settings logic */ }); app.listen(3000, () => { console.log('Server is running on port 3000'); });
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const path = require('path');
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 10000;
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'frontend')));
+app.post('/api/register', (req, res) => { /* registration logic */ });
+app.post('/api/login', (req, res) => { /* login logic */ });
+app.post('/api/tasks', (req, res) => { /* create task logic */ });
+app.get('/api/tasks', (req, res) => { /* get tasks logic */ });
+app.patch('/api/tasks/:task_id', (req, res) => { /* update task logic */ });
+app.delete('/api/tasks/:task_id', (req, res) => { /* delete task logic */ });
+app.post('/api/notifications/settings', (req, res) => { /* notification settings logic */ });
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+/*
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "cors": "^2.8.5",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0"
+  }
+}
+*/
